@@ -3,10 +3,26 @@
 <!--这里的标签可以随便写，这就是可扩展的标记语言-->
 <beans>
 <!--    这个bean标签的作用就是 将来servletPath中涉及的名字是fruit，那么就要fruitController来处理-->
-    <bean id="fruit" class="com.zylai.fruit.controller.FruitController"/>
 
+    <!--property表示这个bean所需要的属性，name表示属性名，ref表示引用其他bean的id值-->
+    <bean id="fruit" class="com.zylai.fruit.controller.FruitController">
+        <property name="fruitService" ref="fruitService"/>
+    </bean>
+
+    <bean id="fruitDAO" class="com.zylai.fruit.dao.impl.FruitDAOImpl"/>
+    <bean id="fruitService" class="com.zylai.fruit.service.impl.FruitServiceImpl">
+        <!--property表示这个bean所需要的属性，name表示属性名，ref表示引用其他bean的id值-->
+        <property name="fruitDAO" ref="fruitDAO"/>
+    </bean>
 </beans>
 
+<!--
+Node 节点
+    Element 元素节点
+    Text  文本节点
+    比如：<sname>jim</sname>
+    这里有两个节点，分别是元素节点<sname>和文本节点jim，
+-->
 <!--
 HTML：超文本标记语言
 XML：可扩展的标记语言

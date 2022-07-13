@@ -1,5 +1,7 @@
 package com.zylai.myssm.myspringmvc;
 
+import com.zylai.myssm.io.BeanFactory;
+import com.zylai.myssm.io.ClassPathXmlApplication;
 import com.zylai.myssm.util.StringUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,55 +36,14 @@ import java.util.Map;
 @WebServlet("*.do")
 public class DispatcherServlet extends ViewBaseServlet {
 
-    private Map<String, Object> beanMap = new HashMap<>();
-
+    private BeanFactory beanFactory;
     public DispatcherServlet() {
-
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-//        读取文件的信息
-//        1.创建DocumentBuilderFactory对象
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("applicationContext.xml");
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-//         2.创建DocumentBuilder
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-//            3 获取document
-            Document document = documentBuilder.parse(inputStream);
-
-//            4 获取所有的bean结点
-            NodeList beanNodeList = document.getElementsByTagName("bean");
-            for (int i = 0; i < beanNodeList.getLength(); i++) {
-                Node beanNode = beanNodeList.item(i);
-//                判断是否是元素结点
-                if (beanNode.getNodeType() == Node.ELEMENT_NODE) {
-//                     强转为element来获取id和class
-                    Element beanElement = (Element) beanNode;
-                    String beanId = beanElement.getAttribute("id");
-                    String className = beanElement.getAttribute("class");
-                    Class<?> controllerBeanClass = Class.forName(className);
-                    Object beanObj = controllerBeanClass.newInstance();
-
-//                    将id和类的实例对象放到map中
-                    beanMap.put(beanId, beanObj);
-                }
-            }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        beanFactory = new ClassPathXmlApplication();
     }
 
     @Override
@@ -99,7 +60,7 @@ public class DispatcherServlet extends ViewBaseServlet {
         String servletPath = request.getServletPath();
         servletPath = servletPath.substring(1, servletPath.lastIndexOf(".do"));
 
-        Object controllerBeanObj = beanMap.get(servletPath);
+        Object controllerBeanObj = beanFactory.getBean(servletPath);
 
         String operate = request.getParameter("operate");
         if (StringUtil.isEmpty(operate)) {

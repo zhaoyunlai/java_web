@@ -1,8 +1,7 @@
-package com.zylai.fruit.biz.impl;
+package com.zylai.fruit.service.impl;
 
-import com.zylai.fruit.biz.FruitService;
+import com.zylai.fruit.service.FruitService;
 import com.zylai.fruit.dao.FruitDAO;
-import com.zylai.fruit.dao.impl.FruitDAOImpl;
 import com.zylai.fruit.pojo.Fruit;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  */
 public class FruitServiceImpl implements FruitService {
 
-    private FruitDAO fruitDAO = new FruitDAOImpl();
+    private FruitDAO fruitDAO = null;
 
     @Override
     public List<Fruit> getFruitList(String keyword, Integer pageNo) {

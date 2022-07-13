@@ -1,4 +1,4 @@
-package com.zylai.fruit.biz;
+package com.zylai.fruit.service;
 
 import com.zylai.fruit.pojo.Fruit;
 

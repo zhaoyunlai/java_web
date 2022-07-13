@@ -1,7 +1,6 @@
 package com.zylai.fruit.controller;
 
-import com.zylai.fruit.biz.FruitService;
-import com.zylai.fruit.biz.impl.FruitServiceImpl;
+import com.zylai.fruit.service.FruitService;
 import com.zylai.fruit.pojo.Fruit;
 import com.zylai.myssm.util.StringUtil;
 
@@ -18,7 +17,8 @@ import java.util.List;
 
 public class FruitController{
 
-    private FruitService fruitService = new FruitServiceImpl();
+    //虽然写的是null，但是不会报空指针，在ClassPathXmlApplication类中，已经将这个属性赋值
+    private FruitService fruitService = null;
 
     private String update(Integer fid,String fname,Integer price,Integer fcount,String remark) {
 
