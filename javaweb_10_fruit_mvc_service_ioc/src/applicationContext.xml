@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--这里的标签可以随便写，这就是可扩展的标记语言-->
+<beans>
+<!--    这个bean标签的作用就是 将来servletPath中涉及的名字是fruit，那么就要fruitController来处理-->
+    <bean id="fruit" class="com.zylai.fruit.controller.FruitController"/>
+
+</beans>
+
+<!--
+HTML：超文本标记语言
+XML：可扩展的标记语言
+HTML是xml的一个子集
+
+xml文件包含三个部分：
+1）xml声明：而且声明这一行代码必须在xml文件的第一行
+2）DTD 文档类型定义
+3）xml正文
+-->
