@@ -1,5 +1,6 @@
-package com.zylai.myssm.io;
+package com.zylai.myssm.ioc;
 
+import com.zylai.myssm.util.StringUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,12 +24,19 @@ import java.util.Map;
 public class ClassPathXmlApplication implements BeanFactory{
 
     private Map<String,Object> beanMap = new HashMap<>();
+    private String path = "applicationContext.xml";
 
     public ClassPathXmlApplication(){
+        this("applicationContext.xml");
+    }
+    public ClassPathXmlApplication(String path){
+        if(StringUtil.isEmpty(path)){
+            throw new RuntimeException("IOC容器的配置文件没有指定...");
+        }
         try {
 //        读取文件的信息
 //        1.创建DocumentBuilderFactory对象
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("applicationContext.xml");
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 //         2.创建DocumentBuilder
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();

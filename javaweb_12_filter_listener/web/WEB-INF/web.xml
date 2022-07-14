@@ -11,4 +11,9 @@
 <!--        <filter-name>Demo01Filter</filter-name>-->
 <!--        <url-pattern>/demo01.do</url-pattern>-->
 <!--    </filter-mapping>-->
+
+<!--    配置监听器-->
+<!--    <listener>-->
+<!--        <listener-class>com.zylai.listener.MyServletContextListener</listener-class>-->
+<!--    </listener>-->
 </web-app>

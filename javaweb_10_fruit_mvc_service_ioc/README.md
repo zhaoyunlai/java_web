@@ -46,4 +46,18 @@ MVC：Model（模型）、View（视图）、Controller（控制器）
 5. ......
 
 ## 4 IOC
+之前在servlet中，我们创建service对象，`FruitService fruitService= new FruitServiceImpl();`，
+这句话如果出现在servlet中的某个方法内部，那么这个FruitService的作用域（生命周期）应该就是这个方法级别；
+如果这句话出现在servlet的类中，也就是说fruitService是一个成员变量，
+那么这个fruitService的作用域应该就是这个servlet实例。如果作用域是方法级别，那么可能需要重复创建对象；
+如果是实例级别，就会有一些线程不安全的问题；
 
+
+之后：我们在applicationContext.xml中定义了这个fruitService。然后通过解析xml，构造fruitService实例，
+存放在beanMap中，这个beanMap在一个BeanFactory实例中。那么这就说明，每个实例对象都存放在beanMap这个容器中。
+因此我们转移了之前的service实例、dao实例等等他们的生命周期。**控制权从程序员转移到BeanFactory，这个现象就叫做控制反转。**
+
+
+总体思路：将各个bean实例的配置写在`applicationContext.xml`文件中，
+在`ClassPathXmlApplication`中创建beanMap，用于存放所有的bean实例（包括所有的controller实例、service实例、DAO实例），
+当使用到对应的实例时，就通过getBean()方法获取Bean实例。

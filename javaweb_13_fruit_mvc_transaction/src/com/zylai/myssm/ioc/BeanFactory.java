@@ -1,4 +1,4 @@
-package com.zylai.myssm.io;
+package com.zylai.myssm.ioc;
 
 /**
  * @Author: Zhao YunLai
