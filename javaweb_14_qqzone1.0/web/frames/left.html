@@ -7,7 +7,7 @@
 </head>
 <body>
     <div id="div_friendList" >
-        我的好友2<br/>
+        我的好友<br/>
         <ul>
             <li th:if="${#lists.isEmpty(session.userBasic.friendList)}">一个好友也没有</li>
             <li th:unless="${#lists.isEmpty(session.userBasic.friendList)}" th:each="friend : ${session.userBasic.friendList}" th:text="${friend.nickName}"></li>

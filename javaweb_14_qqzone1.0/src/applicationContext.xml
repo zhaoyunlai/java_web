@@ -36,4 +36,6 @@ property 的ref 是IDREF 参考ID
         <property name="userBasicService" ref="userBasicService"/>
         <property name="topicService" ref="topicService"/>
     </bean>
+
+    <bean id="page" class="com.zylai.myssm.myspringmvc.PageController"/>
 </beans>

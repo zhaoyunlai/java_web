@@ -1,8 +1,6 @@
 package com.zylai.myssm.basedao;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,16 +109,37 @@ public abstract class BaseDAO<T> {
     }
 
     //    通过反射，给obj对象的property属性赋propertyValue值
-    private void setValue(Object obj,String property,Object propertyValue) throws NoSuchFieldException, IllegalAccessException {
+    private void setValue(Object obj,String property,Object propertyValue) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException {
         Class clazz = obj.getClass();
 //        获取property这个字符串对应的属性名，比如“fid”去找obj中的fid属性
         Field field  = clazz.getDeclaredField(property);
         if(field!=null){
+            //获取当前字段的类型名称
+            String typeName = field.getType().getName();
+            //判断如果是自定义类型，则需要调用这个自定义类的一个带参数的构造方法，
+            //创建出这个自定义的实例对象，然后将实例对象赋值给这个属性
+            if(isMyType(typeName)){
+                //假设typeName是"com.zylai.qqzone.pojo.UserBasic"
+                Class<?> typeNameClass = Class.forName(typeName);
+                Constructor<?> constructor = typeNameClass.getDeclaredConstructor(Integer.class);
+                propertyValue =  constructor.newInstance(propertyValue);
+            }
+
             //            强制访问
             field.setAccessible(true);
             //为obj对象设置filed属性的值
             field.set(obj,propertyValue);
         }
+    }
+    //这里只列出来了这三个类
+    private boolean isNotMyType(String typeName) {
+        return "java.lang.Integer".equals(typeName)
+                || "java.lang.String".equals(typeName)
+                || "java.util.Date".equals(typeName)
+                || "java.sql.Date".equals(typeName);
+    }
+    private boolean isMyType(String typeName){
+        return !isNotMyType(typeName);
     }
 
     //    执行查询
@@ -155,7 +174,7 @@ public abstract class BaseDAO<T> {
 
             }
             return list;
-        } catch (SQLException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new DAOException("DAO executeQuery 出错了");
         }
@@ -191,7 +210,7 @@ public abstract class BaseDAO<T> {
                 return entity;
             }
             return null;
-        } catch (SQLException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new DAOException("DAO load 出错了");
         }

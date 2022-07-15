@@ -20,9 +20,12 @@ public class UserController {
 
     public String login(String loginId, String pwd, HttpSession session){
 
+        //1. 登录验证
         UserBasic userBasic = userBasicService.login(loginId, pwd);
         if(userBasic!=null){
+            // 获取相关好友信息
             List<UserBasic> friendList = userBasicService.getFriendList(userBasic);
+            // 获取相关的日志列表信息
             List<Topic> topicList = topicService.getTopicList(userBasic);
 
             userBasic.setFriendList(friendList);
