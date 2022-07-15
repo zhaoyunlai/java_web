@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--文档类型定义
+这里指定了每个标签的要求
+beans中可以存在多个bean
+bean中存在多个property
+property单标签
+
+bean 的id是ID类型的，是必须的
+property 的ref 是IDREF 参考ID
+-->
+<!DOCTYPE beans [
+        <!ELEMENT beans (bean*)>
+        <!ELEMENT bean (property*)>
+        <!ELEMENT property (#PCDATA)>
+
+        <!ATTLIST bean id ID #REQUIRED>
+        <!ATTLIST bean class CDATA #IMPLIED>
+        <!ATTLIST property name CDATA #IMPLIED>
+        <!ATTLIST property ref IDREF #IMPLIED>
+        ]>
+
+<beans>
+    <bean id="userBasicDAO" class="com.zylai.qqzone.dao.impl.UserBasicDAOImpl"/>
+    <bean id="topicDAO" class="com.zylai.qqzone.dao.impl.TopicDAOImpl"/>
+
+    <bean id="userBasicService" class="com.zylai.qqzone.service.impl.UserBasicServiceImpl">
+        <property name="userBasicDAO" ref="userBasicDAO"/>
+    </bean>
+
+    <bean id="topicService" class="com.zylai.qqzone.service.impl.TopicServiceImpl">
+        <property name="topicDAO" ref="topicDAO"/>
+    </bean>
+
+    <bean id="user" class="com.zylai.qqzone.controller.UserController">
+        <property name="userBasicService" ref="userBasicService"/>
+        <property name="topicService" ref="topicService"/>
+    </bean>
+</beans>
