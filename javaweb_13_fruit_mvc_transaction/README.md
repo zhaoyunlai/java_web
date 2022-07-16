@@ -60,7 +60,7 @@ ThreadLocal称为本地线程，我们可以通过set方法在当前线程上存
 
 set方法源码分析：
 
-```
+```java
 public void set(T value) {
     Thread t = Thread.currentThread();// 获取当前线程
     ThreadLocalMap map = getMap(t);  //每一个线程都维护各自的一个容器（ThreadLocalMap）
@@ -75,7 +75,7 @@ public void set(T value) {
 
 get源码分析：
 
-```
+```java
 public T get() {
     Thread t = Thread.currentThread();// 获取当前线程
     ThreadLocalMap map = getMap(t);//获取和这个线程相关的ThreadLocalMap
