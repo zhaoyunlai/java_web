@@ -16,7 +16,7 @@ public interface TopicDAO {
     //添加日志
     void addTopic(Topic topic);
     //删除日志
-    void delTopic(Topic topic);
+    void delTopic(Integer id);
     //获取特定日志信息
     Topic getTopic(Integer id);
 }

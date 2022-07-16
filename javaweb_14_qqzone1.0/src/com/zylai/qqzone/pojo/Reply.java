@@ -18,6 +18,17 @@ public class Reply {
 
     public Reply(){}
 
+    public Reply(Integer id) {
+        this.id = id;
+    }
+
+    public Reply(String content, Date replyDate, UserBasic author, Topic topic) {
+        this.content = content;
+        this.replyDate = replyDate;
+        this.author = author;
+        this.topic = topic;
+    }
+
     public Integer getId() {
         return id;
     }

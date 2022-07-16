@@ -20,6 +20,10 @@ public class Topic {
 
     public Topic(){}
 
+    public Topic(Integer id) {
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

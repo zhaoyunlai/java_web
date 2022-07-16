@@ -1,7 +1,6 @@
 package com.zylai.qqzone.dao;
 
 import com.zylai.qqzone.pojo.Reply;
-import com.zylai.qqzone.pojo.Topic;
 
 import java.util.List;
 
@@ -12,9 +11,11 @@ import java.util.List;
  */
 public interface ReplyDAO {
     //获取指定日志的回复列表
-    List<Reply> getReplyList(Topic topic);
+    List<Reply> getReplyList(Integer topicId);
     //添加回复
     void addReply(Reply reply);
     //删除回复
     void delReply(Integer id);
+
+    Reply getReplyById(Integer id);
 }

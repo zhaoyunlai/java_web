@@ -31,7 +31,7 @@ public class CharacterEncodingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         //设置编码
-        ((HttpServletRequest)servletRequest).setCharacterEncoding(encoding);
+        servletRequest.setCharacterEncoding(encoding);
         //放行
         filterChain.doFilter(servletRequest, servletResponse);
     }

@@ -1,8 +1,12 @@
 package com.zylai.myssm.basedao;
 
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+
+import javax.sql.DataSource;
+import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * @Author: Zhao YunLai
@@ -13,20 +17,44 @@ public class ConnUtil {
 
     private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
 
-    protected static final String DRIVER = "com.mysql.jdbc.Driver";
-    protected static final String URL = "jdbc:mysql://localhost:3306/qqzonedb?useUnicode=true&characterEncoding=utf-8&useSSL=false";
-    protected static final String USER = "root";
-    protected static final String PWD = "root";
+    protected static  String DRIVER;
+    protected static  String URL;
+    protected static  String USER;
+    protected static  String PWD;
 
-    private static Connection createConn(){
+    private static DataSource dataSource;
+
+    static{
+        InputStream is = ConnUtil.class.getClassLoader().getResourceAsStream("jdbc.properties");
+        Properties properties = new Properties();
         try {
-            //       1.加载驱动
-            Class.forName(DRIVER);
-            //            2.通过驱动获取连接对象
-            return DriverManager.getConnection(URL, USER, PWD);
-        } catch (ClassNotFoundException | SQLException e) {
+            properties.load(is);
+            dataSource = DruidDataSourceFactory.createDataSource(properties);
+            //直接读取整个配置文件，不需要挨个属性读取了
+//            DRIVER = properties.getProperty("jdbc.driver");
+//            URL = properties.getProperty("jdbc.url");
+//            USER = properties.getProperty("jdbc.user");
+//            PWD = properties.getProperty("jdbc.pwd");
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static Connection createConn(){
+        //使用连接池
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        try {
+//            //       1.加载驱动
+//            Class.forName(DRIVER);
+//            //            2.通过驱动获取连接对象
+//            return DriverManager.getConnection(URL, USER, PWD);
+//        } catch (ClassNotFoundException | SQLException e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
 

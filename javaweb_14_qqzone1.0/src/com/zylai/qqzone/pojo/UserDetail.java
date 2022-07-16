@@ -20,6 +20,10 @@ public class UserDetail {
     //子类:java.sql.Time  时分秒
     public UserDetail(){}
 
+    public UserDetail(Integer id) {
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }
