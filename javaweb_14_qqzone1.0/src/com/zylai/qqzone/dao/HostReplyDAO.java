@@ -10,4 +10,5 @@ import com.zylai.qqzone.pojo.HostReply;
 public interface HostReplyDAO {
     HostReply getHostReplyByReplyId(Integer replyId);
     void delHostReply(Integer id);
+    void addHostReply(HostReply hostReply);
 }

@@ -51,4 +51,9 @@ public class TopicServiceImpl implements TopicService {
         //删除topic
         topicDAO.delTopic(id);
     }
+
+    @Override
+    public Integer addTopic(Topic topic) {
+        return topicDAO.addTopic(topic);
+    }
 }

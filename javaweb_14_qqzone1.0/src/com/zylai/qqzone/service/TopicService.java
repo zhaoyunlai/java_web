@@ -17,4 +17,6 @@ public interface TopicService {
     Topic getTopicById(Integer id);
 
     void delTopic(Integer id);
+
+    Integer addTopic(Topic topic);
 }

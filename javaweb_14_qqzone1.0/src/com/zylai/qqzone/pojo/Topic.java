@@ -24,6 +24,13 @@ public class Topic {
         this.id = id;
     }
 
+    public Topic(String title, String content, Date topicDate, UserBasic author) {
+        this.title = title;
+        this.content = content;
+        this.topicDate = topicDate;
+        this.author = author;
+    }
+
     public Integer getId() {
         return id;
     }

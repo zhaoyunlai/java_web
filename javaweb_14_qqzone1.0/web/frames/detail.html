@@ -23,12 +23,16 @@
                 window.location.href='reply.do?operate=delReply&replyId='+replyId+'&topicId='+topicId
             }
         }
-        var isHostReply = false;
+        function jumpToHostReply(replyId) {
+            document.getElementById('replyIdInput').value=replyId
+            document.getElementById('div_add_host_reply').style.display='inline'
+            window.location.hash='#div_add_host_reply'
+        }
     </script>
 </head>
 <body>
     <div id="div_back_to_topic_list">
-        <a href="main.html">返回日志列表</a>
+        <a th:href="@{/page.do?operate=page&page=frames/main}">返回日志列表</a>
     </div>
     <div id="div_topic_detail">
         <div id="div_topic_info">
@@ -78,16 +82,42 @@
                             <li style="color:#6e0000;font-size:12px;width: 100%;border:0px solid red;" th:text="${reply.hostReply.content}">你以为我是慕容复的人，所以和我比试？段兄弟年纪轻轻，就有如此武学修为，实属罕见！武林早已盛传大理段氏有一门绝学，叫六脉神剑，能以无形剑气杀人，果然真有此门神功！</li>
                             <li style="color:#6e0000;font-size:12px;width:100%;border:0px solid blue;text-align: right;margin-right: 8px;" th:text="|主人回复于${reply.hostReply.hostReplyDate}|">主人回复于2021/10/01 11:50:30</li>
                         </ul>
-                        <a th:id="|a${reply.id}|" th:unless="${reply.hostReply!=null}"  href="#div_add_reply" style="float: right;display: none;">主人回复</a>
+                        <a th:id="|a${reply.id}|" th:unless="${reply.hostReply!=null}"  th:onclick="|jumpToHostReply(${reply.id})|"
+                           style="float: right;display: none; cursor:pointer">主人回复</a>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
-    <div id="div_add_reply">
+    <div class="div_add_reply">
         <p class="add_reply_title">添加回复</p>
         <form action="reply.do" method="post">
             <input type="hidden" name="operate" value="addReply"/>
+            <input type="hidden" name="topicId" th:value="${session.topic.id}"/>
+            <table>
+                <tr>
+                    <th style="width: 25%">回复日志：</th>
+                    <td><input type="text" th:value="|《${session.topic.title}》|" value="《萧某今天就和天下群雄决一死战，你们一起上吧！》" readonly /></td>
+                </tr>
+                <tr>
+                    <th>回复内容：</th>
+                    <td><textarea name="content" rows="3"></textarea></td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <input type="submit"  value=" 回 复 "/>
+                        <input type="reset" value=" 重 置 "/>
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div id="div_add_host_reply" class="div_add_reply" style="display:none">
+        <p class="add_reply_title">添加主人回复</p>
+        <form action="hostReply.do" method="post">
+            <input type="hidden" name="operate" value="addHostReply"/>
+            <input id="replyIdInput" type="hidden" name="replyId"/>
             <input type="hidden" name="topicId" th:value="${session.topic.id}"/>
             <table>
                 <tr>

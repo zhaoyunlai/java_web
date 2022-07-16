@@ -5,6 +5,7 @@ import com.zylai.qqzone.pojo.UserBasic;
 import com.zylai.qqzone.service.TopicService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,5 +38,20 @@ public class TopicController {
         //重新覆盖一下friend中的信息，为啥不覆盖userBasic呢？因为main.html中迭代的是friend的
         session.setAttribute("friend",userBasic);
         return "frames/main";
+    }
+
+    public String addTopic(String title,String content,Integer authorId,HttpSession session){
+        //添加topic
+        Topic topic = new Topic(title, content, new Date(), new UserBasic(authorId));
+        //这里需要获取添加完成之后主键的值，为了获取更加完备的topic对象
+        Integer key = topicService.addTopic(topic);
+        topic.setId(key);
+        //从session中获取当前用户信息，更新当前用户的日志列表并覆盖
+        //其实也可以直接重新再查询一遍用户的日志，但是我觉得莫得必要了这里
+        UserBasic userBasic = (UserBasic) session.getAttribute("userBasic");
+        userBasic.getTopicList().add(topic);
+        //重新覆盖一下friend中的信息，为啥不覆盖userBasic呢？因为main.html中迭代的是friend的
+        session.setAttribute("friend",userBasic);
+        return "index";
     }
 }

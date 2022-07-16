@@ -63,4 +63,8 @@ property 的ref 是IDREF 参考ID
         <property name="replyService" ref="replyService"/>
     </bean>
 
+    <bean id="hostReply" class="com.zylai.qqzone.controller.HostReplyController">
+        <property name="hostReplyService" ref="hostReplyService"/>
+    </bean>
+
 </beans>

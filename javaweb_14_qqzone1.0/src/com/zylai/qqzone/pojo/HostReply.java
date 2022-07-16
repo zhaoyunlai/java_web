@@ -20,6 +20,13 @@ public class HostReply {
         this.id = id;
     }
 
+    public HostReply(String content, Date hostReplyDate, UserBasic author, Reply reply) {
+        this.content = content;
+        this.hostReplyDate = hostReplyDate;
+        this.author = author;
+        this.reply = reply;
+    }
+
     public Integer getId() {
         return id;
     }
